@@ -5,11 +5,34 @@ const Context = createContext()
 
 // passes cart info through site through SateContext using context.Provider
 export const StateContext = ({ children }) => {
-    const [showCart, setshowCart] = useState(false)
-    const [cartItems, setcartItems] = useState()
-    const [totalPrice, settotalPrice] = useState()
-    const [totalQuantities, settotalQuantities] = useState()
+    const [showCart, setShowCart] = useState(false)
+    const [cartItems, setCartItems] = useState([])
+    const [totalPrice, setTotalPrice] = useState()
+    const [totalQuantities, setTotalQuantities] = useState()
     const [qty, setQty] = useState(1)
+
+    const onAdd = (product, quantity) => {
+        const checkProductInCart = cartItems.find((item) => item._id === product._id)
+
+        setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity)
+        setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity)
+
+        if(checkProductInCart) {
+
+            const updatedCartItems = cartItems.map((cartProduct) => {
+                if(cartProduct._id == product._id) return {
+                    ...cartProduct, quantity: cartProduct.quantity + quantity
+                }
+            })
+
+            setCartItems(updatedCartItems)
+        } else {
+            product.quantity = quantity
+            
+            setCartItems([...cartItems, {...product}])
+        }
+        toast.success(`${qty} ${product.name} added to cart`)
+    }
 
     const incQty = () => {
         setQty((prevQty) => prevQty + 1)
@@ -32,7 +55,8 @@ export const StateContext = ({ children }) => {
                 totalQuantities,
                 qty,
                 incQty,
-                decQty
+                decQty,
+                onAdd
             }}
         >
             {children}

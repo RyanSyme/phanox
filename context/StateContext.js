@@ -3,7 +3,7 @@ import { toast } from 'react-hot-toast'
 
 const Context = createContext()
 
-// passes cart info through site through SateContext using context.Provider
+// passes cart info through site via StateContext using context.Provider
 export const StateContext = ({ children }) => {
     const [showCart, setShowCart] = useState(false)
     const [cartItems, setCartItems] = useState([])

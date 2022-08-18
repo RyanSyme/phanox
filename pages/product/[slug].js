@@ -7,7 +7,7 @@ import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-
 
 const ProductDetails = ({ product, products }) => {
 
-    const  { image, name, details, price } = product
+    const { image, name, details, price } = product
     const [index, setindex] = useState(0)
     const { decQty, incQty, qty, onAdd } = useStateContext()
 
